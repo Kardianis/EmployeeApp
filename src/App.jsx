@@ -3,13 +3,13 @@ import './App.css';
 import Header from './Header'
 import Employees from './Employees'
 import Footer from './Footer'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
 
-  const [selectedTeam, setTeam] = useState("TeamA")
+  const [selectedTeam, setTeam] = useState(JSON.parse(localStorage.getItem('selectedTeam')) || "TeamA")
 
-  const [employees, setEmployees] = useState([{
+  const [employees, setEmployees] = useState(JSON.parse(localStorage.getItem('employees')) || [{
       id: 1,
       fullName: "Bob Jones",
       designation: "JavaScript Developer",
@@ -93,6 +93,19 @@ function App() {
       gender: "male",
       teamName: "TeamD"
     }])
+
+    useEffect(() => {
+
+      localStorage.setItem('employeeList',JSON.stringify(employees));
+
+    }, [employees]);
+
+    useEffect(() => {
+
+      localStorage.setItem('selectedTeam',JSON.stringify(selectedTeam));
+
+    }, [selectedTeam]);
+
 
   function handleTeamSelectionChange(e){
     setTeam(e.target.value);
